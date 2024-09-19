@@ -3,8 +3,15 @@ from flask import Blueprint, current_app, jsonify, request
 
 api = Blueprint("api", __name__)
 
-# saving the last action of the user
+# saving the action of the user {1:[{'type': str, 'amount': float, timestamp: int}]}
 user_actions = {}
+
+def save_user_action(user_id, action_type, amount, timestamp):
+    if user_id not in user_actions:
+        user_actions[user_id] = []
+        
+    user_actions[user_id].append({"type": action_type, "amount": amount, "timestamp": timestamp})
+    return user_actions
 
 @api.post("/event")
 def handle_user_event() -> dict:
@@ -17,6 +24,9 @@ def handle_user_event() -> dict:
     user_id = data.get("user_id")
     timestamp =  data.get("time")
     
+    user_actions = save_user_action(user_id, action_type, amount, timestamp)
+    print(user_actions)
+
     # Default response
     response = {
         "alert": False,
@@ -24,15 +34,6 @@ def handle_user_event() -> dict:
         "user_id": user_id,
         "time": timestamp
     }
-    
-    def save_user_action():
-        if user_id not in user_actions:
-            user_actions[user_id] = []
-            
-        user_actions[user_id].append({"type": action_type, "amount": amount, "timestamp": timestamp})
-        print(user_actions) 
-         
-    save_user_action()
     
     # Check for withdrawal over 100
     if action_type == "withdraw" and amount > 100:
@@ -64,7 +65,7 @@ def handle_user_event() -> dict:
     recent_total_deposit = sum(action["amount"] for action in user_actions[user_id] 
                     if action["type"] == "deposit" and timestamp - action["timestamp"] <= 30)
     
-    print(recent_total_deposit)
+    #print(recent_total_deposit)
 
     if recent_total_deposit > 200:
         response["alert"] = True
