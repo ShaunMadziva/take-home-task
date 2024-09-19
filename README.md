@@ -1,5 +1,10 @@
 # Technical Test Template
 
+## Submission by: Shaun Madziva
+
+I've used the template as provided and added my code in `user_monitoring/api.py` and my unit tests in `tests/api_test.py`. I managed attempt all the conditions and left comments in the code to explain my thinking.
+
+
 ## Getting started
 
 We have set up a basic Flask API that runs on port `5000` and included a `pytest` test showing the endpoint working.
