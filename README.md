@@ -2,7 +2,8 @@
 
 ## Submission by: Shaun Madziva
 
-I've used the template as provided and added my code in `user_monitoring/api.py` and my unit tests in `tests/api_test.py`. I managed attempt all the conditions and left comments in the code to explain my thinking.
+I've used the template as provided and added my code in `user_monitoring/api.py` and my unit tests in `tests/api_test.py`.  
+I managed to attempt all the conditions and left comments in the code to explain my thinking.
 
 
 ## Getting started
