@@ -1,4 +1,30 @@
 from flask.testing import FlaskClient
+from user_monitoring.api import save_user_action
+
+def test_save_user_action():
+    user_actions = {} 
+    user_id = 1
+    action_type = "deposit"
+    amount = 50.00
+    timestamp = 100
+    
+    user_actions = save_user_action(user_id, action_type, amount, timestamp)
+
+    assert user_id in user_actions
+    assert len(user_actions[user_id]) == 1
+    assert user_actions[user_id][0] == {
+        "type": "deposit",
+        "amount": amount,
+        "timestamp": timestamp
+    }
+    
+    save_user_action(user_id, "withdraw", 20.00, 110)
+    assert len(user_actions[user_id]) == 2
+    assert user_actions[user_id][1] == {
+        "type": "withdraw",
+        "amount": 20.00,
+        "timestamp": 110
+    }
 
 def test_handle_user_event_withdraw_over_100(client: FlaskClient):
     response = client.post("/event", json={
