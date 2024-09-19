@@ -3,7 +3,7 @@ from flask import Blueprint, current_app, jsonify, request
 
 api = Blueprint("api", __name__)
 
-# saving the action of the user {1:[{'type': str, 'amount': float, timestamp: int}]}
+# saving the action of the user {id: int [{'type': str, 'amount': float, timestamp: int}]}
 user_actions = {}
 
 def save_user_action(user_id, action_type, amount, timestamp):
@@ -25,7 +25,7 @@ def handle_user_event() -> dict:
     timestamp =  data.get("time")
     
     user_actions = save_user_action(user_id, action_type, amount, timestamp)
-    print(user_actions)
+    #print(user_actions)
 
     # Default response
     response = {
